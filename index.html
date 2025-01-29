@@ -1,0 +1,172 @@
+    <!DOCTYPE html>
+    <html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>¿Quieres ser mi San Valentín?</title>
+        <link rel="stylesheet" href="style.css">
+        <style>
+            /* El estilo sigue igual */
+            body {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                height: 100vh;
+                background-color: #0d0d0d;
+                color: white;
+                text-align: center;
+                font-family: Arial, sans-serif;
+                overflow: hidden;
+                margin: 0;
+                transition: opacity 1s ease-in-out;
+            }
+            h1 {
+                font-size: 6rem;
+                text-transform: uppercase;
+                animation: glow 1.5s infinite alternate;
+            }
+            @keyframes glow {
+                0% { text-shadow: 0 0 20px #ff0080, 0 0 40px #ff0080, 0 0 60px #ff0080; }
+                100% { text-shadow: 0 0 40px #ff00ff, 0 0 60px #ff00ff, 0 0 80px #ff00ff; }
+            }
+            p {
+                font-size: 3rem;
+                margin: 20px 0 40px;
+            }
+            .buttons {
+                display: flex;
+                justify-content: center;
+                gap: 20px;
+                margin-top: 40px;
+            }
+            .btn {
+                background: #ff0080;
+                color: white;
+                padding: 20px 40px;
+                text-decoration: none;
+                font-size: 2rem;
+                border-radius: 20px;
+                transition: background 0.3s, transform 0.3s;
+                cursor: pointer;
+                border: none;
+            }
+            .btn:hover {
+                background: #ff00ff;
+                transform: scale(1.1);
+            }
+            .stars {
+                position: absolute;
+                width: 100%;
+                height: 100%;
+                background: black;
+                overflow: hidden;
+                z-index: -1;
+            }
+            .hidden {
+                opacity: 0;
+                pointer-events: none;
+            }
+            .transition-container {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                display: none;
+                background: black;
+                color: white;
+            }
+            .loading {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                font-size: 2rem;
+                color: white;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="stars"></div>
+        <div id="content">
+            <h1>¡Te amo mucho mi amor ❤!</h1>
+            <p>Mi niña hermosha, ¿Quieres ser mi San Valentín?</p>
+            <div class="buttons">
+                <button class="btn" onclick="startTransition()">Si</button>
+                <button class="btn" onclick="startTransition()">Sii</button>
+                <button class="btn" onclick="startTransition()">Shi</button>
+            </div>
+        </div>
+
+        
+
+
+        <script>
+            
+            function startTransition() {
+                window.location.href = "paraValery0.0.html";
+                
+                // Oculta el contenido inicial con una transición
+                const content = document.getElementById('content');
+                const transitionContainer = document.getElementById('transitionContainer');
+                const loadingMessage = document.getElementById('loadingMessage');
+
+                content.classList.add('hidden');
+
+                setTimeout(() => {
+                    content.style.display = 'none';
+                    transitionContainer.style.display = 'block';
+
+                    // Cargar el contenido dinámicamente
+                    loadContent();
+                }, 1000); // Tiempo para completar la transición
+            }
+
+            // Función para cargar contenido dinámico
+            function loadContent() {
+                // Aquí es donde puedes cargar contenido dinámico si lo deseas
+                fetch('nuevoContenido.html')
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error(`HTTP error! status: ${response.status}`);
+                        }
+                        return response.text();
+                    })
+                    .then(data => {
+                        // Cambiar el contenido de la transición con el nuevo HTML
+                        document.getElementById('transitionContainer').innerHTML = data;
+
+                        // Cargar el script necesario
+                        loadScript('script.js');
+                        // Cargar el estilo si es necesario
+                        loadStyle('style.css');
+                    })
+                    .catch(error => {
+                        console.error('Error cargando el contenido:', error);
+                        document.getElementById('loadingMessage').innerText = 'Error cargando el contenido.';
+                    });
+            }
+
+            // Función para cargar un script
+            function loadScript(src) {
+                const script = document.createElement('script');
+                script.src = src;
+                script.onload = () => {
+                    document.getElementById('loadingMessage').style.display = 'none';
+                };
+                document.body.appendChild(script);
+            }
+
+            // Función para cargar un archivo de estilo
+            function loadStyle(href) {
+                const style = document.createElement('link');
+                style.rel = 'stylesheet';
+                style.href = href;
+                document.head.appendChild(style);
+            }
+            
+        </script>
+        
+    </body>
+    </html>
